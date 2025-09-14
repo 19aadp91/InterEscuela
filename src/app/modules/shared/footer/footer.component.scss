@@ -1,0 +1,24 @@
+footer {
+    margin-top: 20px;
+    bottom: 0;
+    width: 100%;
+    background-color: #000000;
+    color: #f8f9fa;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+        color: #f8f9fa;
+        text-decoration: none;
+
+        i {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-size: cover;
+            filter: invert(1);
+        }
+    }
+}

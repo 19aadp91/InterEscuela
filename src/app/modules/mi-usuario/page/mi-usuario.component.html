@@ -1,0 +1,108 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            @if(!actualizar){
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">Mi Usuario</h5>
+                </div>
+                <div class="col-6 text-end">
+                    <button class="btn btn-success" (click)="Actualizar()">Actualizar</button>
+                </div>
+                <div class="col-4">
+                    <p class="card-text">Nombre : {{estudiantes?.nombre}}</p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text">Correo : {{estudiantes?.email}}</p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text">Hbilitado : {{estudiantes?.habilitado == true ? "si":"no"}}</p>
+                </div>
+                <div class="col-12">
+                    <h5 class="card-title" style="margin-top: 25px;">Materias</h5>
+                </div>
+                @if (estudiantes?.materias!.length > 0 ) {
+                @for (item of estudiantes?.materias; track $index) {
+                <div class="card" style="margin-top: 15px;">
+                    <div class="row">
+                        <div class="col-3">
+                            <p class="card-text">Materia : {{item.nombre}}</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="card-text">Nombre del profesor : {{item.nombreProfesor}}</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="card-text">Creditos : {{item.creditos}}</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="card-text">Compañeros : {{companeros(item)}}</p>
+                        </div>
+                    </div>
+                </div>
+                }
+                }@else {
+                <h6 class="card-title" style="margin-top: 15px;">No se tiene materias asignadas</h6>
+                }
+            </div>
+            }@else {
+            <form class="mb-4 " [formGroup]="form" (ngSubmit)="enviar()">
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="card-title">Actualizar Usuario</h5>
+                    </div>
+                    <div class="col-6 text-end">
+                        <button class="btn btn-danger" (click)="Salir()">Salir</button>
+                    </div>
+                    <div class="col-3">
+                        <p class="card-text">Nombre:</p>
+                        <input type="text" class="form-control" placeholder="" formControlName="nombre" [ngClass]="{'is-invalid': form.get('nombre')?.invalid && form.get('nombre')?.touched,
+                                    'is-valid': form.get('nombre')?.valid && form.get('nombre')?.touched}">
+                    </div>
+                    <div class="col-3">
+                        <p class="card-text">Contraseña:</p>
+                        <input type="text" class="form-control" placeholder="" formControlName="contasena" [ngClass]="{'is-invalid': form.get('contasena')?.invalid && form.get('contasena')?.touched,
+                                    'is-valid': form.get('contasena')?.valid && form.get('contasena')?.touched}">
+                    </div>
+                    <div class="col-3">
+                        <p class="card-text">Correo :</p>
+                        <p> {{estudiantes?.email}}</p>
+                    </div>
+                    <div class="col-3">
+                        <p class="card-text">Hbilitado : </p>
+                        <p>{{estudiantes?.habilitado == true ? "si":"no"}}</p>
+                    </div>
+                    <div class="col-12">
+                        <div formArrayName="elementos">
+                            @for (item of elementos.controls; track $index) {
+                            <div [formGroupName]="$index">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <h6 class="form-h6">Materia</h6>
+                                        <select class="form-control" style="width: 100%;height: auto;"
+                                            formControlName="idMateria">
+                                            @for (item of materias; track $index) {
+                                            <option [value]="item.idMateria">{{item.nombre}}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-4 mt-4">
+                                        <button class="btn btn-danger" (click)="eliminarElemento($index)">Eliminar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-4 mt-3">
+                        @if(elementos.length < 3){
+                            <button class="btn btn-success" (click)="agregarElemento()">Agregar Materia</button>
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-success mt-4" [disabled]="!form.valid" (click)="enviar()">enviar</button>
+            </form>
+            }
+        </div>
+    </div>
+</div>
